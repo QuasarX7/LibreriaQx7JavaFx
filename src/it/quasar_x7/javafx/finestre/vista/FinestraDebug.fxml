@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="574.0" prefWidth="900.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.quasar_x7.javafx.finestre.controllo.FinestraDebugController">
+    <stylesheets>
+        <URL value="@stile.css" />
+    </stylesheets>
+<children><Button layoutX="273.0" layoutY="521.0" mnemonicParsing="false" onAction="#pulsanteOK" prefHeight="39.0" prefWidth="224.0" text="Ok">
+<font>
+<Font name="Arial Black" size="18.0" />
+</font>
+</Button><Label alignment="CENTER" layoutX="6.0" layoutY="1.0" prefHeight="37.0" prefWidth="745.0" text="Avviso di DEBUG" textAlignment="CENTER" textFill="#bc1717">
+<font>
+<Font name="Arial Black" size="24.0" />
+</font>
+</Label><ImageView fitHeight="232.0" fitWidth="169.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../risorse/infermiera_attesa.gif" />
+</image>
+</ImageView><Accordion fx:id="schede" layoutX="174.0" layoutY="51.0" prefHeight="462.0" prefWidth="724.0">
+  <panes>
+    <TitledPane animated="false" prefHeight="305.0" prefWidth="632.0" text="MESSAGGIO">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><TextArea fx:id="messaggio" editable="false" prefColumnCount="45" prefHeight="279.0" prefRowCount="20" prefWidth="598.0" style="-fx-control-inner-background: black; -fx-text-fill: red;" text="Questo è un messaggio di avviso...." wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<font>
+<Font name="Arial Black" size="14.0" />
+</font>
+</TextArea>
+</children></AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane animated="false" text="STACK TRACE">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><TableView fx:id="tabella" layoutX="7.0" layoutY="3.5" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+  <columns>
+    <TableColumn fx:id="colonnaRiga" prefWidth="75.0" text="riga" />
+    <TableColumn fx:id="colonnaFile" prefWidth="380.00003814697266" text="file" /><TableColumn fx:id="colonnaMetodo" prefWidth="239.99996948242188" text="metodo" />
+  </columns>
+</TableView>
+</children></AnchorPane>
+      </content>
+    </TitledPane>
+  </panes>
+</Accordion>
+</children>
+</AnchorPane>

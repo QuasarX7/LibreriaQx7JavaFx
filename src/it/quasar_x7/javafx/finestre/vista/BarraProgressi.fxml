@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="225.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.quasar_x7.javafx.finestre.controllo.BarraProgressiController">
+    <stylesheets>
+        <URL value="@stile.css" />
+    </stylesheets>
+    <children>
+        <ProgressBar fx:id="barra" layoutX="21.0" layoutY="172.0" prefHeight="24.0" prefWidth="477.0" progress="0.0" />
+        <ProgressIndicator fx:id="indicatore" layoutX="493.0" layoutY="151.0" prefHeight="67.0" prefWidth="102.0" progress="0.0" />
+        <TextArea fx:id="messaggio" editable="false" layoutX="16.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefColumnCount="45" prefHeight="131.0" prefRowCount="20" prefWidth="477.0" style="-fx-control-inner-background: black; -fx-text-fill: white;" text="Questo è un messaggio di avviso....">
+            <font>
+                <Font name="Arial Black" size="14.0" />
+            </font>
+        </TextArea>
+        <Button layoutX="545.0" layoutY="8.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chiudiSenzaSalvare" prefHeight="28.0" prefWidth="35.0" style="-fx-background-color: red; -fx-border-color: red;" text="X" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

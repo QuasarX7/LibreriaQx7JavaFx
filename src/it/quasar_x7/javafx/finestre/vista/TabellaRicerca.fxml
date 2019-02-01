@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.quasar_x7.javafx.finestre.controllo.TabellaRicercaController">
+    <stylesheets>
+        <URL value="@stile.css" />
+    </stylesheets>
+    <children>
+        <Label fx:id="titolo" alignment="CENTER" layoutX="42.0" prefHeight="37.0" prefWidth="869.0" text="Nome tabella" textAlignment="CENTER">
+            <font>
+                <Font name="Arial Black" size="24.0" />
+            </font>
+            <contextMenu>
+                <ContextMenu fx:id="menuTabella">
+                    <items>
+<!--
+                        <MenuItem mnemonicParsing="false" onAction="#selezionaRiga" text="Seleziona">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="373.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../risorse/approva-mini.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </MenuItem>
+-->
+                        <MenuItem mnemonicParsing="false" onAction="#aggiungiRiga" text="Aggiungi">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="373.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../risorse/aggiungi.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#modificaRiga" text="Modifica">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="373.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../risorse/modifica.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#eliminaRiga" text="Elimina">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="373.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../risorse/cancella.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </MenuItem>
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </Label>
+        <ScrollPane layoutX="196.0" layoutY="227.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">
+            <content>
+                <TableView fx:id="tabella" layoutX="-6.0" layoutY="-3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#visualizzaMenu" prefHeight="100.0" prefWidth="1089.0" />
+            </content>
+        </ScrollPane>
+        <Button layoutX="915.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chiusuraSenzaSalvare" prefHeight="28.0" prefWidth="35.0" style="-fx-background-color: red; -fx-border-color: red;" text="X" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+        <ComboBox fx:id="campo" layoutX="168.0" layoutY="59.0" prefHeight="27.0" prefWidth="230.0" />
+        <Label fx:id="nomeCampo" layoutX="14.0" layoutY="59.0" prefHeight="26.0" prefWidth="152.0" text="input:">
+            <font>
+                <Font name="Arial Black" size="17.0" />
+            </font>
+        </Label>
+        <Button layoutX="422.0" layoutY="57.0" mnemonicParsing="false" onAction="#cerca" prefHeight="30.0" prefWidth="125.0" text="Cerca">
+            <font>
+                <Font name="Arial Black" size="14.0" />
+            </font>
+        </Button>
+        <Button layoutX="880.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#riduciFinestra" prefHeight="28.0" prefWidth="30.0" style="-fx-background-color: yellow;" text="▼" textFill="WHITE" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Arial Bold" size="12.0" />
+            </font>
+        </Button>
+        <Button layoutX="880.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#schermoIntero" prefHeight="28.0" prefWidth="30.0" style="-fx-background-color: green;" text="+" textFill="WHITE" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="385.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.quasar_x7.javafx.finestre.controllo.ListaColoreController">
+    <stylesheets>
+        <URL value="@stile.css" />
+    </stylesheets>
+<children><TableView fx:id="tabella" layoutX="5.0" layoutY="46.0" onMouseClicked="#visualizzaMenu" prefHeight="554.0" prefWidth="370.0">
+<columns>
+<TableColumn fx:id="colonna" prefWidth="299.0" text="Voci" />
+<TableColumn fx:id="colore" maxWidth="144.0" prefWidth="47.0" text="Colori" />
+</columns>
+</TableView><Button layoutX="344.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chiusuraSenzaSalvare" prefHeight="28.0" prefWidth="35.0" style="-fx-background-color: red; -fx-border-color: red;" text="X" textFill="WHITE">
+<font>
+<Font name="Arial Black" size="12.0" />
+</font>
+</Button><Label fx:id="titolo" alignment="CENTER" layoutX="6.0" prefHeight="37.0" prefWidth="337.0" text="Nome lista" textAlignment="CENTER">
+<contextMenu>
+<ContextMenu fx:id="menu">
+<items>
+<MenuItem mnemonicParsing="false" onAction="#aggiungi" text="Aggiungi">
+<graphic>
+<ImageView fitHeight="150.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../risorse/aggiungi.png" />
+</image>
+</ImageView>
+</graphic>
+</MenuItem>
+<MenuItem mnemonicParsing="false" onAction="#seleziona" text="Modifica">
+<graphic>
+<ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../risorse/modifica.png" />
+</image>
+</ImageView>
+</graphic>
+</MenuItem>
+<MenuItem mnemonicParsing="false" onAction="#elimina" text="Elimina">
+<graphic>
+<ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@../risorse/cancella.png" />
+</image>
+</ImageView>
+</graphic>
+</MenuItem>
+</items>
+</ContextMenu>
+</contextMenu>
+<font>
+<Font name="Arial Black" size="24.0" />
+</font>
+</Label>
+</children>
+</AnchorPane>

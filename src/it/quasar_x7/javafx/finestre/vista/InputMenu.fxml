@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="257.0" prefWidth="577.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.quasar_x7.javafx.finestre.controllo.InputMenuController">
+    <stylesheets>
+        <URL value="@stile.css" />
+    </stylesheets>
+    <children>        
+        <ImageView fitHeight="239.0" fitWidth="197.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../risorse/girl_pc.gif" />
+            </image>
+        </ImageView>
+        <Label layoutX="6.0" layoutY="1.0" prefHeight="37.0" prefWidth="185.0" text="Seleziona!" textFill="#bc1717">
+            <font>
+                <Font name="Arial Black" size="24.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="domanda" editable="false" layoutX="209.0" layoutY="15.0" prefColumnCount="45" prefHeight="88.0" prefRowCount="20" prefWidth="329.0" style="-fx-control-inner-background: black; -fx-text-fill: white;" text="Seleziona valore del campo" wrapText="true">
+            <font>
+                <Font name="Arial Black" size="14.0" />
+            </font>
+        </TextArea>
+        <Button layoutX="269.0" layoutY="193.0" mnemonicParsing="false" onAction="#pulsanteOK" prefHeight="39.0" prefWidth="224.0" text="Ok">
+            <font>
+                <Font name="Arial Black" size="18.0" />
+            </font>
+            <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="344.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0">
+                    <image>
+                        <Image url="@../risorse/aggiungi.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <ComboBox fx:id="input" editable="true" layoutX="213.0" layoutY="120.0" prefHeight="27.0" prefWidth="321.0" />
+        <Button layoutX="535.5" layoutY="1.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#chiudiSenzaSalvare" prefHeight="28.0" prefWidth="35.0" style="-fx-background-color: red; -fx-border-color: red;" text="X" textFill="WHITE" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Arial Black" size="12.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
