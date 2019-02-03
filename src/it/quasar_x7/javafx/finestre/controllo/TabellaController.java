@@ -385,14 +385,15 @@ public class TabellaController implements Initializable {
      */
     public void modificaRiga(String chiave, ArrayList<String> riga){
         int i =0;
-        for(ArrayList<String> record : righe){
-            if(record.get(0).equals(chiave)){
-                righe.set(i, riga);
-                //righe.remove(i);
-                break;
-            }
-            i++;
-        }
+        if(righe != null)
+		    for(ArrayList<String> record : righe){
+		        if(record.get(0).equals(chiave)){
+		            righe.set(i, riga);
+		            //righe.remove(i);
+		            break;
+		        }
+		        i++;
+		    }
         caricaTabella();
     }
     /**
