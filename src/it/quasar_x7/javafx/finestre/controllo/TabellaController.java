@@ -374,7 +374,8 @@ public class TabellaController implements Initializable {
     
     
     public void aggiungiRiga(ArrayList<String> riga){
-        righe.add(riga);
+    	if(righe != null)
+    		righe.add(riga);
         caricaTabella();
     }
 
