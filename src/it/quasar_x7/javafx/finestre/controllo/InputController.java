@@ -43,6 +43,8 @@ public class InputController implements Initializable {
     
     private static String testo;
     
+    public static boolean verificaInput;//< impedisce la comparsa dell'avviso finale di errore input
+    
    
     
     @FXML
@@ -61,6 +63,10 @@ public class InputController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	
+    	if(!verificaInput)
+    		verificaInput = true;
+    	
         if(suggerimento != null){
             input.setText(suggerimento);
         }
@@ -95,7 +101,8 @@ public class InputController implements Initializable {
             if(azione.esegui(input.getText()))
                 chiudi();
             else{
-                Finestra.finestraAvviso(this, "Input non valido!");
+                if(verificaInput)
+                	Finestra.finestraAvviso(this, "Input non valido!");
             }
         }
     }
