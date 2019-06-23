@@ -1,5 +1,6 @@
 package it.quasar_x7.javafx.finestre.controllo;
 
+
 import it.quasar_x7.javafx.CampoTesto.Colore;
 import it.quasar_x7.javafx.Finestra;
 import it.quasar_x7.javafx.Finestra.R;
@@ -253,7 +254,7 @@ public class TabellaController implements Initializable {
                 for(ArrayList<String> riga: righe){
                     tabella.getItems().add(
                             FXCollections.observableArrayList(
-                                    riempiCelleVuote(riga)
+                                    correggiRiga(riga)
                             )
                     );
            
@@ -312,8 +313,25 @@ public class TabellaController implements Initializable {
         }
     }
     
-    
-    private ArrayList<String> riempiCelleVuote(ArrayList<String> riga){
+    /**
+     * Corregge i valori booleani e aggiunge celle vuote.
+     * 
+     * @param riga
+     * @return
+     */
+    private ArrayList<String> correggiRiga(ArrayList<String> riga){
+    	// correzione valori booleani
+    	for(int i=0; i < riga.size(); i++) {
+    		String cella = riga.get(i);
+    		if(cella != null)
+    			if(cella.equals("true")) {
+    				riga.set(i, "Sì");
+    			}else if(cella.equals("false")) {
+    				riga.set(i, "No");
+    			}
+    	}
+    		
+    	// Riempi celle vuote
         int numeroVuoti = colonneTabella.size() - riga.size();
         for(int i=0; i < numeroVuoti && numeroVuoti > 0 ; i++)
             riga.add("");

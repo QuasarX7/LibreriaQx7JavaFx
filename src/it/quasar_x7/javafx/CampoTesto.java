@@ -3,6 +3,7 @@ package it.quasar_x7.javafx;
 import it.quasar_x7.java.utile.DataOraria;
 import it.quasar_x7.java.utile.Errore;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -38,7 +40,8 @@ public class CampoTesto {
 
     private static final HashMap<TextInputControl,ChangeListener<String>> listaProprietaTesto = new HashMap<>();
     private static final HashMap<TextInputControl,ChangeListener<Boolean>> listaProprietaFocus = new HashMap<>();
-    
+    private static final HashMap<TextInputControl,EventHandler<KeyEvent>> listaFiltraEventoTastiera = new HashMap<>();
+    ;
     
     public class Colore{
         public static final String NERO         = "-fx-text-fill: black;";
@@ -69,20 +72,24 @@ public class CampoTesto {
      * @param eccezioni 
     */
     public static void aggiungiMascheraInput(final TextField campo, final String maschera,final char carattereOscurato,final String eccezioni) {
-        campo.setText(maschera);
-        campo.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent e) -> {
+    	inizializzaCampo(campo);
+    	campo.setText(maschera);
+        
+        EventHandler<KeyEvent>  limitaLunghezzaInput = (KeyEvent e) -> {
             if (campo.getText().length() >= maschera.length() ) {                    
                  e.consume();
             }
-        });
-               
-        campo.focusedProperty().addListener((ov, oldValue, newValue) -> {
+        };
+        aggiornaFiltroTastiera(campo,limitaLunghezzaInput);
+        
+        ChangeListener<Boolean>  posizionaCursoreInizioCampo = (ov, oldValue, newValue) -> {
             Platform.runLater(() -> {
                 if (campo.isFocused() && !campo.getText().isEmpty()) {
                     campo.positionCaret(0);
                 }
             });
-        });
+        };
+        aggiornaProprietaFocus(campo, posizionaCursoreInizioCampo);
         
         campo.setOnKeyPressed((final KeyEvent e) -> {
             if(campo.getText().length() != maschera.length()){
@@ -124,6 +131,26 @@ public class CampoTesto {
         
     }
     
+   public static void inizializzaCampo(final TextField campo) {
+	   campo.setText("");
+	   EventHandler<KeyEvent> filtro = listaFiltraEventoTastiera.get(campo);
+       if(filtro != null){
+           campo.removeEventFilter(KeyEvent.KEY_TYPED, filtro);
+       }
+       
+       ChangeListener<Boolean> proprieta = listaProprietaFocus.get(campo);
+       if(proprieta != null){
+           campo.focusedProperty().removeListener(proprieta);
+       }
+       campo.setOnKeyPressed(null);
+       
+       ChangeListener<String> proprieta2 = listaProprietaTesto.get(campo);
+       if(proprieta2 != null){
+           campo.textProperty().removeListener(proprieta2);
+       }
+       listaProprietaTesto.put(campo, proprieta2);
+   }
+    
     public static void aggiungiMascheraInput(final TextField campo, Maschera maschera){
         aggiungiMascheraInput(campo,maschera.maschera,maschera.charattere,maschera.input);
     }
@@ -133,6 +160,8 @@ public class CampoTesto {
     public static void aggiungiMascheraInput(final TextField campo, final String maschera, final char carattereOscurato){
         aggiungiMascheraInput(campo,maschera,carattereOscurato,null);
     }
+    
+    
     
     public static int posizioneCorrenteUltimoCarattere(final String input, final char carattereOscurato){
         int risultato=0;
@@ -162,7 +191,7 @@ public class CampoTesto {
     }
     
     public static void soloNumeri(final TextField campo, final int limite) {
-        campo.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent e) -> {
+    	EventHandler<KeyEvent> filtroTastiera = (KeyEvent e) -> {
             if (campo.getText().length() >= limite) {                    
                 e.consume();
             }
@@ -170,10 +199,12 @@ public class CampoTesto {
             }else{
                 e.consume();
             }
-        });
+        };
+        aggiornaFiltroTastiera(campo,filtroTastiera);
     }
+    
     public static void soloNumeri(final TextField campo, final int limite,final char separatore) {
-        campo.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent e) -> {
+    	EventHandler<KeyEvent> filtroTastiera = (KeyEvent e) -> {
             if (campo.getText().length() >= limite) {                    
                 e.consume();
             }
@@ -186,11 +217,13 @@ public class CampoTesto {
             }else{
                 e.consume();
             }
-        });
+        };
+        
+        aggiornaFiltroTastiera(campo,filtroTastiera);
     }
     
     public static void soloNumeriEsadecimali(TextField campo,final int limite) {
-        campo.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent e) -> {
+    	EventHandler<KeyEvent> filtroTastiera = (KeyEvent e) -> {
             if (campo.getText().length() >= limite) {                    
                 e.consume();
             }
@@ -198,7 +231,8 @@ public class CampoTesto {
             }else{
                 e.consume();
             }
-        });
+        };
+        aggiornaFiltroTastiera(campo,filtroTastiera);
     }
 
     
@@ -211,7 +245,7 @@ public class CampoTesto {
      *                  N.B.: nelle eccezioni evitare di mettere il carattere ['] alla fine della stringa
      */
     public static void soloCaratteri(final TextField campo, final int limite,String eccezioni) {
-        campo.addEventFilter(KeyEvent.KEY_TYPED, (KeyEvent e) -> {
+    	EventHandler<KeyEvent> filtroTastiera =  (KeyEvent e) -> {
             if (campo.getText().length() >= limite) {                    
                 e.consume();
             }
@@ -219,7 +253,8 @@ public class CampoTesto {
             }else{
                 e.consume();
             }
-        });
+        };
+        aggiornaFiltroTastiera(campo,filtroTastiera);
     }
     
     public static void soloCaratteri(final TextField campo, final int limite) {
@@ -276,6 +311,16 @@ public class CampoTesto {
     }
     
     
+    private static void aggiornaFiltroTastiera(final TextInputControl campo,EventHandler<KeyEvent> filtroTastiera) {
+        EventHandler<KeyEvent> vecchioFiltro = listaFiltraEventoTastiera.get(campo);
+        if(vecchioFiltro != null){
+            campo.removeEventFilter(KeyEvent.KEY_TYPED, vecchioFiltro);
+        }
+        listaFiltraEventoTastiera.put(campo, filtroTastiera);
+        campo.addEventFilter(KeyEvent.KEY_TYPED, filtroTastiera);
+    }
+    
+    
     /**
      * Commuta i caratteri in input in minuscolo inpostando il primo di una parola a maiuscolo.
      * @param campo 
@@ -301,7 +346,6 @@ public class CampoTesto {
         ChangeListener<String> inputIP = (ov, oldValue, newValue) -> {
             int punti = 0;
             String s = "";
-            boolean maiuscolo = true;
             for(int i=0; i < newValue.length(); i++){
                 String c = newValue.charAt(i) + "";
                 if(".".equals(c))
@@ -354,6 +398,11 @@ public class CampoTesto {
         return true;
     }
     
+    
+    public static void indirizzoMAC(final TextInputControl campo) {
+    	aggiungiMascheraInput((TextField) campo,Maschera.MAC,'_',"[:\\\\_0-9A-Fa-f]");
+    }
+    
     /**
      * Cancella il testo del campo quando selezionato.
      * 
@@ -372,27 +421,23 @@ public class CampoTesto {
     }
     
     public static boolean controllaData(final TextField campo) {
-        try {
-            DataOraria data = new DataOraria(campo.getText());
-            String formato = campo.getText();
-            int gg = Integer.valueOf(formato.substring(0, 2));
-            int mm = Integer.valueOf(formato.substring(3, 5));
-            int aaaa = Integer.valueOf(formato.substring(6, 10));
+        String formato = campo.getText();
+        int gg = Integer.valueOf(formato.substring(0, 2));
+        int mm = Integer.valueOf(formato.substring(3, 5));
+        int aaaa = Integer.valueOf(formato.substring(6, 10));
 
-            if(gg > 0 && gg <= DataOraria.giorniMese(mm, aaaa) && mm > 0 && mm <= 12 && aaaa > 1900 && aaaa <= new DataOraria().anno()){
-                campo.setStyle(Colore.VERDE);
-            }else{
-                campo.setStyle(Colore.ARANCIONE);
-                return false;
-            }
-        } catch (Errore ex) {
-            campo.setStyle(Colore.ROSSO);
+        if(gg > 0 && gg <= DataOraria.giorniMese(mm, aaaa) && mm > 0 && mm <= 12 && aaaa > 1900 && aaaa <= new DataOraria().anno()){
+            campo.setStyle(Colore.VERDE);
+            return true;
+        }else{
+            campo.setStyle(Colore.ARANCIONE);
             return false;
         }
-        return true;
+        
+        
     }
     
-    public static void autoCompletamento(TextField campo, ArrayList<String> elenco){
+    public static void autoCompletamento(TextField campo, Collection<String> elenco){
         final SortedSet<String>voci = new TreeSet<>();
         voci.addAll(elenco);
         ContextMenu vociMenu = new ContextMenu();
