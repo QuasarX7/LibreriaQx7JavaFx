@@ -214,10 +214,11 @@ public class TabellaController implements Initializable {
                 double maxL = riquadro.getLayoutBounds().getWidth();
                 if(totLunghezza < maxL)
                     totLunghezza = maxL;
-                
+                tabella.setPrefHeight(totAltezza);
+                tabella.setPrefWidth(totLunghezza);
             }
-            tabella.setPrefWidth(totLunghezza);
-            tabella.setPrefHeight(totAltezza);
+            
+            
             
             // aggiungi colonne
             for(int i=0; i < colonneTabella.size(); i++){
