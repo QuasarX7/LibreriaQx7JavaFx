@@ -19,12 +19,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -308,17 +314,54 @@ public class Finestra {
     }
     
     /**
-     * Metodo che accentra la finestra e la rende trasparente..
+     * Metodo che accentra la finestra, la rende trasparente e da un effetto animato..
      */
     public static void adattaFinestra(){
         if(vistaCorrente != null){
             Schermo.accentraFinestra(vistaCorrente);
             Scene scena = vistaCorrente.getScene();
-            if(scena != null)
+            if(scena != null) {
                 scena.setFill(null);
+                effettoComparsa(scena);
+            }
         }
     }
     
+    static private void effettoComparsa(Scene scena) {
+    	scena.getRoot().scaleYProperty().set(0);
+        scena.getRoot().scaleXProperty().set(0);
+        scena.getRoot().opacityProperty().set(0.0);
+        //scena.getRoot().rotateProperty().set(0);
+        final double DURATA = 500.0;
+        Timeline azione =new Timeline();
+        azione.getKeyFrames().add(
+        		new KeyFrame(
+        				Duration.millis(DURATA),
+        				new KeyValue(scena.getRoot().scaleYProperty(),1,Interpolator.EASE_IN)
+        		)
+        );
+        azione.getKeyFrames().add(
+        		new KeyFrame(
+        				Duration.millis(DURATA),
+        				new KeyValue(scena.getRoot().scaleXProperty(),1,Interpolator.EASE_IN)
+        		)
+        );
+        azione.getKeyFrames().add(
+        		new KeyFrame(
+        				Duration.millis(DURATA),
+        				new KeyValue(scena.getRoot().opacityProperty(),1.0,Interpolator.EASE_IN)
+        		)
+        );
+        /*
+        azione.getKeyFrames().add(
+        		new KeyFrame(
+        				Duration.millis(DURATA),
+        				new KeyValue(scena.getRoot().rotateProperty(),360.0,Interpolator.EASE_IN)
+        		)
+        );
+        */
+        azione.play();
+    }
     
     public static void riduciFinestra() {
         if(Finestra.vistaCorrente != null)
