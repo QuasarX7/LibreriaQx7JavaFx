@@ -404,6 +404,31 @@ public class CampoTesto {
     }
     
     /**
+     * Imposta una maschera di tipo data al campo. Se vi è un errore il testo diventa rosso.
+     * 
+     * @param campo
+     * @return 
+     */
+    public static void data(final TextInputControl campo) {
+    	CampoTesto.aggiungiMascheraInput((TextField)campo, "**/**/****", '*',"[0-9]");
+        
+        campo.focusedProperty().addListener(
+        		new ChangeListener<Boolean>(){
+
+					@Override
+					public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+						if(CampoTesto.controllaData((TextField)campo))
+							campo.setStyle(CampoTesto.Colore.NERO);
+						else
+							campo.setStyle(CampoTesto.Colore.ROSSO);
+					}
+				}
+        );
+    }
+    
+    
+    
+    /**
      * Cancella il testo del campo quando selezionato.
      * 
      * @param campo 
@@ -421,18 +446,22 @@ public class CampoTesto {
     }
     
     public static boolean controllaData(final TextField campo) {
-        String formato = campo.getText();
-        int gg = Integer.valueOf(formato.substring(0, 2));
-        int mm = Integer.valueOf(formato.substring(3, 5));
-        int aaaa = Integer.valueOf(formato.substring(6, 10));
-
-        if(gg > 0 && gg <= DataOraria.giorniMese(mm, aaaa) && mm > 0 && mm <= 12 && aaaa > 1900 && aaaa <= new DataOraria().anno()){
-            campo.setStyle(Colore.VERDE);
-            return true;
-        }else{
-            campo.setStyle(Colore.ARANCIONE);
-            return false;
-        }
+    	try {
+	        String formato = campo.getText();
+	        int gg = Integer.valueOf(formato.substring(0, 2));
+	        int mm = Integer.valueOf(formato.substring(3, 5));
+	        int aaaa = Integer.valueOf(formato.substring(6, 10));
+	
+	        if(gg > 0 && gg <= DataOraria.giorniMese(mm, aaaa) && mm > 0 && mm <= 12 && aaaa >= 1900 && aaaa <= new DataOraria().anno()){
+	            campo.setStyle(Colore.VERDE);
+	            return true;
+	        }else{
+	            campo.setStyle(Colore.ARANCIONE);
+	            return false;
+	        }
+    	}catch(NumberFormatException e) {
+    		return false;
+    	}
         
         
     }
