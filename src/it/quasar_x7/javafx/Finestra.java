@@ -158,15 +158,18 @@ public class Finestra {
      * </pre>
      * @param controller
      * @param fileFXML 
+     * @return
      */
-    public static void caricaFinestra(Object controller,String fileFXML){
-        try {
+    public static Scene caricaFinestra(Object controller,String fileFXML){
+    	Scene scena = null;
+    	try {
             Parent root = FXMLLoader.load(controller.getClass().getResource(fileFXML));
-            Scene scena = new Scene(root);
+            scena = new Scene(root);
             caricaFinestra(controller,scena);
         } catch (IOException ex) {
             Logger.getLogger(Finestra.class.getName()).log(Level.SEVERE, null, ex);
         }
+    	return scena;
     }
     
     /**
