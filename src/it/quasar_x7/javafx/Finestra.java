@@ -102,23 +102,27 @@ public class Finestra {
         
     }
     
+    /**
+     * Permette di salvare una scena nel registro delle scene.
+     * 
+     * @param scena
+     */
     private static void congelaFinestra(Scene scena) {
-
     	registroScene.add(scena);
-    	 System.out.println("<- "+registroScene.size());
     }
     
+    /**
+     * Permette di recuperare l'ultima scena salvata nel registo delle scene.
+     */
     private static Scene resuscitaFinestra() {
-  
-    	Scene s =  registroScene.pop();
-    	System.out.println("-> "+registroScene.size());
-    	return s;
+    	return  registroScene.pop();
     }
     
     /**
      * Questo metodo permette di visualizzare una finestra al centro dello schermo e dotata della proprietà di trascinamento, 
      * purché  nella sua classe di controllo venga definita una variablie statica usata per memorizza la scena corrente.
      * Questa variabile di classe va implementata prima di chiamare il metodo.
+     * 
      * 
      * @param controller
      * @param scena 
@@ -128,7 +132,8 @@ public class Finestra {
     }
     
     private static void caricaFinestra(Object controller,Scene scena,boolean salva){
-    	if(salva)salvaFinestraCorrente();
+    	if(salva)
+    		salvaFinestraCorrente();
         Parent root = scena.getRoot();
         // imposta il trascinamento con il mouse
         root.setOnMousePressed(
@@ -161,7 +166,9 @@ public class Finestra {
     }
     
     /**
-     * Ripristina la vecchia scena salvata.
+     * Metodo fondamentale che permette di ripristina la vecchia scena salvata.
+     * Va implementato all'interno dei metodi di gestione della chiusura di una 
+     * finestra FXML nella relativa classe 'controller'.
      * 
      * @param controller
      */
@@ -191,8 +198,15 @@ public class Finestra {
      *      FinestraResponsabileController.scenaCorrente = Finestra.scenaCorrente();
      *      Finestra.caricaFinestra(this, R.FXML.FINESTRA_RESPONSABILE);
      * }
+     * 
      * </code>
      * </pre>
+     * N.B.:
+     * Una volta usato questo metodo per aprire una finestra FXML, occorre implementare il metodo statico
+     * 'Finestra.ricaricaFinestra(this)' all'interno della classe controller per gestire la chiusura e il 
+     * ripristino della precedente finestra.
+     * 
+     * 
      * @param controller
      * @param fileFXML 
      * @return
@@ -336,7 +350,7 @@ public class Finestra {
         return null;
     }
     
-    public static void salvaFinestraCorrente(){
+    private static void salvaFinestraCorrente(){
     	Scene scena = scenaCorrente();
         if(scena != null)
         	congelaFinestra(scena);
