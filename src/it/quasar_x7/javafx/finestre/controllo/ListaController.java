@@ -63,7 +63,6 @@ public class ListaController implements Initializable {
     
     static public Codice azione;
     
-    public static Scene scenaCorrente;
     
     protected static ObservableList<VoceSempliceLista> lista = FXCollections.observableArrayList();
     
@@ -177,19 +176,7 @@ public class ListaController implements Initializable {
 
     
     private void chiudi(){
-        if(scenaCorrente != null)
-            Finestra.vistaCorrente.setScene(scenaCorrente);
-        
-        else if(Finestra.finestraPrincipale != null)
-            Finestra.vistaCorrente.setScene(Finestra.finestraPrincipale);
-        else{
-            Platform.exit();
-            System.exit(0);
-        }
-            
-        Finestra.adattaFinestra();
-        Finestra.vistaCorrente.show();
-        scenaCorrente = null;
+        Finestra.ricaricaFinestra(this);
     }
     
     

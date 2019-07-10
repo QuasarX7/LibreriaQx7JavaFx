@@ -17,6 +17,7 @@ import it.quasar_x7.javafx.finestre.controllo.TabellaRicercaController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +42,7 @@ public class Finestra {
     public static Stage vistaCorrente;
     public static Scene finestraPrincipale;
 
+    public static Stack<Scene> registroScene = new Stack<>();
     
     static public class Posizione{
         public static double x = 0;
@@ -100,6 +102,19 @@ public class Finestra {
         
     }
     
+    private static void congelaFinestra(Scene scena) {
+
+    	registroScene.add(scena);
+    	 System.out.println("<- "+registroScene.size());
+    }
+    
+    private static Scene resuscitaFinestra() {
+  
+    	Scene s =  registroScene.pop();
+    	System.out.println("-> "+registroScene.size());
+    	return s;
+    }
+    
     /**
      * Questo metodo permette di visualizzare una finestra al centro dello schermo e dotata della proprietà di trascinamento, 
      * purché  nella sua classe di controllo venga definita una variablie statica usata per memorizza la scena corrente.
@@ -109,37 +124,59 @@ public class Finestra {
      * @param scena 
      */
     public static void caricaFinestra(Object controller,Scene scena){
-            Parent root = scena.getRoot();
-            // imposta il trascinamento con il mouse
-            root.setOnMousePressed(
-                    (MouseEvent event) -> {
-                        Finestra.Posizione.x = event.getSceneX();
-                        Finestra.Posizione.y = event.getSceneY();
+    	Finestra.caricaFinestra(controller, scena,true);
+    }
+    
+    private static void caricaFinestra(Object controller,Scene scena,boolean salva){
+    	if(salva)salvaFinestraCorrente();
+        Parent root = scena.getRoot();
+        // imposta il trascinamento con il mouse
+        root.setOnMousePressed(
+                (MouseEvent event) -> {
+                    Finestra.Posizione.x = event.getSceneX();
+                    Finestra.Posizione.y = event.getSceneY();
+                }
+        );
+        root.setOnMouseDragged(
+                (MouseEvent event) -> {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
                     }
-            );
-            root.setOnMouseDragged(
-                    (MouseEvent event) -> {
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException ex) {
-                        }
-                        double dx = event.getSceneX()-Finestra.Posizione.x;
-                        double dy = event.getSceneY()-Finestra.Posizione.y;
-                        Finestra.vistaCorrente.setX(Finestra.vistaCorrente.getX()+dx);
-                        Finestra.vistaCorrente.setY(Finestra.vistaCorrente.getY()+dy);
-                        
-                    }
+                    double dx = event.getSceneX()-Finestra.Posizione.x;
+                    double dy = event.getSceneY()-Finestra.Posizione.y;
+                    Finestra.vistaCorrente.setX(Finestra.vistaCorrente.getX()+dx);
+                    Finestra.vistaCorrente.setY(Finestra.vistaCorrente.getY()+dy);
                     
-            );
-            Finestra.vistaCorrente.setScene(scena);
-            
-            if(!(controller instanceof Application)) {
-                Finestra.adattaFinestra();
-            }
-            Finestra.vistaCorrente.show();
+                }
+                
+        );
+        Finestra.vistaCorrente.setScene(scena);
+        
+        if(!(controller instanceof Application)) {
+            Finestra.adattaFinestra();
+        }
+        Finestra.vistaCorrente.show();
         
     }
     
+    /**
+     * Ripristina la vecchia scena salvata.
+     * 
+     * @param controller
+     */
+    public static void ricaricaFinestra(Object controller){
+    	final boolean NON_REGISTRARE_STACK = false;
+    	if(finestreIbernate())
+            caricaFinestra(controller,resuscitaFinestra(),NON_REGISTRARE_STACK);
+        
+        else if(finestraPrincipale != null)
+            caricaFinestra(controller,finestraPrincipale);
+    }
+    
+    public static void eliminaUltimaFinestraRegistrata() {
+    	registroScene.pop();
+    }
     
     /**
      * Questo metodo permette di visualizzare una finestra al centro dello schermo e dotata della proprietà di trascinamento, 
@@ -165,6 +202,7 @@ public class Finestra {
     	try {
             Parent root = FXMLLoader.load(controller.getClass().getResource(fileFXML));
             scena = new Scene(root);
+            
             caricaFinestra(controller,scena);
         } catch (IOException ex) {
             Logger.getLogger(Finestra.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,7 +219,6 @@ public class Finestra {
      *                          all'evento click sul pulsante Sì 
      */
     public static void finestraConferma(Object controller, String domanda, ConfermaController.Codice ok){
-        ConfermaController.scenaCorrente = Finestra.scenaCorrente();
         ConfermaController.conferma(domanda, ok);
         caricaFinestra(controller,R.FINESTRA_CONFERMA);
     }
@@ -194,62 +231,52 @@ public class Finestra {
      * @param ok 
      */
     public static void finestraInputMenu(Object controller, String domanda,  ArrayList<String> risposte, boolean modificaInput, InputMenuController.Codice ok){
-        InputMenuController.scenaCorrente = Finestra.scenaCorrente();
         InputMenuController.input(domanda, risposte.toArray(new String[risposte.size()]),modificaInput, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT_MENU);
     }
     
     public static void finestraTabellaRicerca(Object controller, String titolo, String nomeCampo,  ArrayList<String> inputCampo, ArrayList<String> colonne, ArrayList<Integer> dimColonne, boolean totali, TabellaController.Codice azione, TabellaRicercaController.CodiceRicerca ricerca){
         if(totali)TabellaRicercaController.abilitaTotali();
-        TabellaRicercaController.scenaCorrente =  Finestra.scenaCorrente();
         TabellaRicercaController.input(titolo,nomeCampo,inputCampo,colonne,dimColonne,azione,ricerca);
         caricaFinestra(controller,R.FINESTRA_TABELLA_RICERCA);
     }
     
     public static void finestraInputColore(Object controller, String domanda,  InputController.Codice ok){
-        InputStringaColoreController.scenaCorrente = Finestra.scenaCorrente();
         InputStringaColoreController.input(domanda, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT_COLORE);
     }
     
     public static void finestraInputColore(Object controller, String domanda,  String suggerimento,  InputController.Codice ok){
-        InputStringaColoreController.scenaCorrente = Finestra.scenaCorrente();
         InputStringaColoreController.input(domanda, suggerimento, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT_COLORE);
     }
     
     public static void finestraInput(Object controller, String domanda,  InputController.Codice ok){
-        InputController.scenaCorrente = Finestra.scenaCorrente();
         InputController.input(domanda, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT);
     }
     
     public static void finestraInput(Object controller, String domanda, String suggerimento,  InputController.Codice ok){
-        InputController.scenaCorrente = Finestra.scenaCorrente();
         InputController.input(domanda, suggerimento, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT);
     }
     
     public static void finestraInput(Object controller, String domanda, ArrayList<String> risposte,  InputController.Codice ok){
-        InputController.scenaCorrente = Finestra.scenaCorrente();
         InputController.input(domanda,risposte, ok);
         caricaFinestra(controller,R.FINESTRA_INPUT);
     }
     
     public static void finestraSalvaFile(Object controller, String nome, TipoFile estenzione,  FileController.CodiceFile ok){
-        FileController.scenaCorrente = Finestra.scenaCorrente();
         FileController.inputFile(nome,estenzione, ok);
         caricaFinestra(controller,R.FINESTRA_FILE);
     }
     
     public static void finestraCaricaFile(Object controller, TipoFile estenzione,  FileController.CodiceFile ok){
-        FileController.scenaCorrente = Finestra.scenaCorrente();
         FileController.inputFile(null,estenzione, ok);
         caricaFinestra(controller,R.FINESTRA_FILE);
     }
     
     public static void finestraBarraProgressi(Object controller,  BarraProgressiController.Codice ok){
-        BarraProgressiController.scenaCorrente = Finestra.scenaCorrente();
         BarraProgressiController.azione(ok);
         caricaFinestra(controller,R.FINESTRA_PROGRESSI);
     }
@@ -267,7 +294,6 @@ public class Finestra {
      */
     public static void finestraTabella(Object controller, String titolo,ArrayList<String> colonne, ArrayList<Integer> dimColonne, ArrayList<ArrayList<String>> righe, boolean totali, TabellaController.Codice azione){
         if(totali)TabellaRicercaController.abilitaTotali();
-        TabellaController.scenaCorrente =  Finestra.scenaCorrente();
         TabellaController.input(titolo,colonne,dimColonne,righe,azione);
         caricaFinestra(controller,R.FINESTRA_TABELLA);
     }
@@ -275,37 +301,31 @@ public class Finestra {
     
     
     public static void finestraMultiLista(Object controller, String titolo, String nomeInput,HashMap<String,ArrayList<String>> voci, MultiListaController.Codice azioni){
-        MultiListaController.scenaCorrente = Finestra.scenaCorrente();
         MultiListaController.input(titolo,nomeInput,voci,azioni);
         caricaFinestra(controller,R.FINESTRA_MULTI_LISTA);;
     }
     
     public static void finestraListaSempice(Object controller, String titolo, ArrayList<String> voci, ListaController.Codice azioni) {
-        ListaController.scenaCorrente = Finestra.scenaCorrente();
         ListaController.input(titolo,voci,azioni);
         caricaFinestra(controller,R.FINESTRA_LISTA);
     }
     
     public static void finestraListaOrdinata(Object controller, String titolo, ArrayList<Object[]> voci, ListaController.Codice azioni){
-        ListaOrdinataController.scenaCorrente = Finestra.scenaCorrente();
         ListaOrdinataController.inputOrdinato(titolo,voci,azioni);
         caricaFinestra(controller,R.FINESTRA_LISTA_ORDINATA);
     }
     
     public static void finestraListaColorata(Object controller, String titolo, ArrayList<Object[]> voci, ListaController.Codice azioni){
-        ListaColoreController.scenaCorrente = Finestra.scenaCorrente();
         ListaColoreController.inputColore(titolo,voci,azioni);
         caricaFinestra(controller,R.FINESTRA_LISTA_COLORATA);
     }
     
     public static void finestraAvviso(Object controller, String avviso){
-        AvvisoController.scenaCorrente = Finestra.scenaCorrente();
         AvvisoController.avviso(avviso);
         caricaFinestra(controller,R.FINESTRA_AVVISO);
     }
     
     public static void finestraDebug(Object controller, java.lang.Exception errore){
-        FinestraDebugController.scenaCorrente = Finestra.scenaCorrente();
         FinestraDebugController.errore = errore;
         caricaFinestra(controller,R.FINESTRA_DEBUG);
     }
@@ -314,6 +334,12 @@ public class Finestra {
         if(vistaCorrente != null)
             return vistaCorrente.getScene();
         return null;
+    }
+    
+    public static void salvaFinestraCorrente(){
+    	Scene scena = scenaCorrente();
+        if(scena != null)
+        	congelaFinestra(scena);
     }
     
     /**
@@ -376,5 +402,9 @@ public class Finestra {
             Finestra.vistaCorrente.setMaximized(!Finestra.vistaCorrente.isMaximized());
         }
     }
+
+	private static boolean finestreIbernate() {
+		return !registroScene.empty();
+	}
     
 }

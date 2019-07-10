@@ -23,7 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class FinestraDebugController implements Initializable {
 
     public static java.lang.Exception errore = null;
-    public static Scene scenaCorrente = null;
     
     
     @FXML
@@ -88,19 +87,7 @@ public class FinestraDebugController implements Initializable {
     
     
     private void chiudi(){
-        if(scenaCorrente != null)
-            Finestra.vistaCorrente.setScene(scenaCorrente);
-        
-        else if(Finestra.finestraPrincipale != null)
-            Finestra.vistaCorrente.setScene(Finestra.finestraPrincipale);
-        else{
-            Platform.exit();
-            System.exit(0);
-        }
-            
-        Finestra.adattaFinestra();
-        Finestra.vistaCorrente.show();
-        scenaCorrente = null;
+    	Finestra.ricaricaFinestra(this);
         errore = null;
     }
     

@@ -328,6 +328,7 @@ public class FileController extends InputController {
 
                                 @Override
                                 public void esci() {
+                                	Finestra.eliminaUltimaFinestraRegistrata();
                                     chiudi();
                                 }
                             }

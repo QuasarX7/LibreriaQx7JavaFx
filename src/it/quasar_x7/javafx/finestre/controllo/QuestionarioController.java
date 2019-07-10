@@ -29,8 +29,6 @@ public class QuestionarioController implements Initializable {
     
     protected static Codice azione;
 
-    public static Scene scenaCorrente;
-    
     protected static ArrayList<String> domande;
     
     protected static boolean modifica = false;
@@ -158,18 +156,7 @@ public class QuestionarioController implements Initializable {
     }
     
     private void chiudi(){
-        if(scenaCorrente != null)
-            Finestra.vistaCorrente.setScene(scenaCorrente);
-        
-        else if(Finestra.finestraPrincipale != null)
-            Finestra.vistaCorrente.setScene(Finestra.finestraPrincipale);
-        else{
-            Platform.exit();
-            System.exit(0);
-        }    
-        Finestra.adattaFinestra();
-        Finestra.vistaCorrente.show();
-        scenaCorrente = null;
+    	Finestra.ricaricaFinestra(this);
     }
     
 }
