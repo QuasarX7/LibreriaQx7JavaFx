@@ -26,6 +26,7 @@ public class ListaOrdinataController extends ListaController {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         if(testoTitolo != null)
             titolo.setText(testoTitolo);
         

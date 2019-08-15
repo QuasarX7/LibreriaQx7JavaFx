@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 /**
@@ -28,12 +29,15 @@ public class ConfermaController implements Initializable {
     @FXML
     private TextArea domanda;
 
+    @FXML
+    private Button pulsanteChiusura;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         if(testo != null)
             domanda.setText(testo);
         else

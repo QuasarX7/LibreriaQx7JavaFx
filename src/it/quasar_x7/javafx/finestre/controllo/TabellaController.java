@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -53,6 +54,9 @@ public class TabellaController implements Initializable {
 
     @FXML
     protected TableView<ObservableList<String>> tabella;
+    
+    @FXML
+    protected Button pulsanteChiusura;
 
     //public static Scene scenaCorrente;
     
@@ -71,6 +75,7 @@ public class TabellaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         if(righe == null)
             righe = new ArrayList<>();
         if(testoTitolo != null)

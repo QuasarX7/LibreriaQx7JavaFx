@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -80,12 +81,17 @@ public class ListaController implements Initializable {
     @FXML
     protected TableView<VoceSempliceLista> tabella;
 
+    @FXML
+    protected Button pulsanteChiusura;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
+    	
         if(testoTitolo != null)
             titolo.setText(testoTitolo);
         

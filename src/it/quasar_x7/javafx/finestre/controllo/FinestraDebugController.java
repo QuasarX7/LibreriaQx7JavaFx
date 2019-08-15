@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -44,14 +45,17 @@ public class FinestraDebugController implements Initializable {
     @FXML
     private TableView<Traccia> tabella;
 
-
+    @FXML
+    private Button pulsanteChiusura;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         if(errore != null){
+        	
             schede.setExpandedPane(schede.getPanes().get(0));
             messaggio.setText(errore.getMessage());
             

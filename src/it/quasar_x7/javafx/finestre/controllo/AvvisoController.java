@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 /**
@@ -21,6 +22,9 @@ public class AvvisoController implements Initializable {
     
     @FXML
     private TextArea messaggio;
+    
+    @FXML
+    private Button pulsante;
 
     
     /**
@@ -28,6 +32,7 @@ public class AvvisoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsante);
         if(testo != null)
             messaggio.setText(testo);
         else

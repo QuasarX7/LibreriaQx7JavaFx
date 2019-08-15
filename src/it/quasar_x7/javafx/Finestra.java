@@ -16,6 +16,7 @@ import it.quasar_x7.javafx.finestre.controllo.TabellaController;
 import it.quasar_x7.javafx.finestre.controllo.TabellaRicercaController;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -29,6 +30,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -103,12 +106,39 @@ public class Finestra {
     }
     
     /**
+     * Crea un avviso del numero di finestre aperte quando il cursore del
+     * mouse si trova sul pulsante.
+     * 
+     * @param pulsante
+     */
+    public static void infoFinestreAperte(Button pulsante) {
+		Tooltip info = new Tooltip(
+				String.format(
+						"Finestre aperte: n° \"%d\"",
+						Finestra.numero()+1
+				)
+		);
+		
+		pulsante.setTooltip(info);
+	}
+    
+    /**
      * Permette di salvare una scena nel registro delle scene.
      * 
      * @param scena
      */
     private static void congelaFinestra(Scene scena) {
     	registroScene.add(scena);
+    }
+    
+
+    
+    /**
+     * Numero di finestre aperte
+     * @return
+     */
+    public static int numero() {
+    	return registroScene.size();
     }
     
     /**
@@ -181,8 +211,18 @@ public class Finestra {
             caricaFinestra(controller,finestraPrincipale);
     }
     
-    public static void eliminaUltimaFinestraRegistrata() {
-    	registroScene.pop();
+    /**
+     * Elimina dal registro (prelevando) l'ultima finestra inserita nel registro.
+     * 
+     * @return se false non vi sono finestre da eliminare
+     */
+    public static boolean eliminaUltimaFinestraRegistrata() {
+    	try{
+    		registroScene.pop();
+    	}catch(EmptyStackException ex) {
+    		return false;
+    	}
+    	return true;
     }
     
     /**

@@ -11,7 +11,7 @@
     <stylesheets>
         <URL value="@stile.css" />
     </stylesheets>
-<children><Button layoutX="269.0" layoutY="238.0" mnemonicParsing="false" onAction="#pulsanteOK" prefHeight="39.0" prefWidth="224.0" text="Ok">
+<children><Button fx:id="pulsante" layoutX="269.0" layoutY="238.0" mnemonicParsing="false" onAction="#pulsanteOK" prefHeight="39.0" prefWidth="224.0" text="Ok">
 <font>
 <Font name="Arial Black" size="18.0" />
 </font>

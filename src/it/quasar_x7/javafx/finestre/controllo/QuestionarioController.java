@@ -46,6 +46,8 @@ public class QuestionarioController implements Initializable {
     @FXML
     protected TextArea domanda;
     
+    
+    
     private static final ObservableList<ObservableList<String>> listaInput = FXCollections.observableArrayList();
     
     protected int indice;
@@ -57,6 +59,7 @@ public class QuestionarioController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         indice=0;
         if(listaInput.size() > 0)
             menuRisposta.setItems(listaInput.get(indice));

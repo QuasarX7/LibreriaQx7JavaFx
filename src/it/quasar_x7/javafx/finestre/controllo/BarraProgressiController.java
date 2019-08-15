@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
@@ -46,6 +47,8 @@ public class BarraProgressiController implements Initializable {
     @FXML
     private ProgressIndicator indicatore;
     
+    @FXML
+    private Button pulsanteChiusura;
     
     /**
      * Initializes the controller class.
@@ -53,7 +56,7 @@ public class BarraProgressiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inizializzaBarra();
-        
+        Finestra.infoFinestreAperte(pulsanteChiusura);
         if(azione != null){
             Task task = azione.creaTask();
             if(task != null){

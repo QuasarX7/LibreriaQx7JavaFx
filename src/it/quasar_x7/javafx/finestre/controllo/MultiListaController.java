@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -69,12 +70,15 @@ public class MultiListaController implements Initializable {
     @FXML
     private TableView<VoceSempliceLista> tabella;
 
+    @FXML
+    private Button pulsanteChiusura;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	Finestra.infoFinestreAperte(pulsanteChiusura);
         inizializzaLista();
         if(testoTitolo != null)
             titolo.setText(testoTitolo);

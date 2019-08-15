@@ -72,6 +72,8 @@ public class FileController extends InputController {
     
     @FXML
     private Label titolo;
+    
+    
 
     
     private final TreeItem<File> HOME = new TreeItem<>(new File(System.getProperty("user.home")));
@@ -88,7 +90,7 @@ public class FileController extends InputController {
         if(estensioneFile == null)
             estensioneFile = TipoFile.TXT;
         
-            
+        Finestra.infoFinestreAperte(pulsanteChiusura);    
             
         if(stato == APRI){
             input.setEditable(false);
