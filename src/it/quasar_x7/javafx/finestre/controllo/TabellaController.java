@@ -258,11 +258,12 @@ public class TabellaController implements Initializable {
 
             if(righe != null){
                 for(ArrayList<String> riga: righe){
-                    tabella.getItems().add(
-                            FXCollections.observableArrayList(
-                                    correggiRiga(riga)
-                            )
-                    );
+                	if(riga != null)
+	                    tabella.getItems().add(
+	                            FXCollections.observableArrayList(
+	                                    correggiRiga(riga)
+	                            )
+	                    );
            
                 }
                 if(totale){ 

@@ -64,7 +64,8 @@ public class ConfermaController implements Initializable {
     @FXML
     private void chiudiSalva(ActionEvent event) {
         if (event.getEventType().equals(ActionEvent.ACTION)) {
-            azione.esegui();
+        	if(azione instanceof Codice)
+        		azione.esegui();
             chiudi();
             azione = null;
         }
